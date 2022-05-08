@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const urlSchema = new Schema({
-  originalUrl: { type: String, required: true },
-  shortUrl: { type: String, required: true }
+  original_url: { type: String, required: true },
+  short_url: { type: String, required: true }
 })
 
 module.exports = mongoose.model('URL', urlSchema)
