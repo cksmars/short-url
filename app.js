@@ -28,11 +28,29 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
   const originalUrl = req.body.original_url
-  const shortUrl = shortenUrl(5)
-  console.log(`original ${originalUrl}, short ${shortUrl}`)
-  return URL.create({ original_url: originalUrl, short_url: shortUrl })
-    .then(() => res.render('result', { shortUrl }))
+  URL.findOne({ original_url: originalUrl })
+    .then(result => {
+      if (!result) {
+        const shortUrl = shortenUrl(5)
+        return URL.create({ original_url: originalUrl, short_url: shortUrl })
+      } else {
+        return result
+      }
+    })
+    .then(result => res.render('result', { shortUrl: result.short_url }))
     .catch(error => console.log(error))
+})
+
+app.get('/:shortUrl', (req, res) => {
+  const shortUrl = req.params.shortUrl
+  URL.findOne({ short_url: shortUrl })
+    .then(result => {
+      if (result) {
+        return res.redirect(result.original_url)
+      } else {
+        res.render('index')
+      }
+    })
 })
 
 app.listen(3000, () => {
