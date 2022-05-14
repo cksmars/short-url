@@ -1,8 +1,19 @@
-<div class="container d-inline">
+<div class="container d-inline" style="text-align:center">
   <h2>Success!Please use this link:
-    <a href="/{{ shortUrl }}" class="short-url" target="_blank">http://localhost:3000/{{ shortUrl }}</a>
+    <a href="/{{ shortUrl }}" class="short-url" id="short-url" target="_blank">http://localhost:3000/{{ shortUrl }}</a>
   </h2>
-  <button type="button" class="btn btn-success">Copy</button>
-  <a href="/" class="btn btn-dark">Back!</a>
+  <div>
+    <button type="button" class="btn btn-success" onclick="copy()">Copy</button>
+    <a href="/" class="btn btn-dark">Back!</a>
+  </div>
+
+  <script>
+    function copy() {
+      const copy = document.getElementById('short-url')
+      navigator.clipboard.writeText(copy.innerText)
+        .then(() => alert('Copied'))
+        .catch(error => console.log(error))
+    }
+  </script>
 
 </div>
